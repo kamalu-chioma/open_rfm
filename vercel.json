@@ -1,10 +1,22 @@
 {
-    "version": 2,
-    "functions": {
-      "api/*.py": {
-        "memory": 1024,   // Increase memory limit
-        "maxDuration": 10  // Max request time = 10 seconds
-      }
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ],
+  "functions": {
+    "app.py": {
+      "runtime": "python3.9",
+      "memory": 1024,
+      "maxDuration": 10
     }
   }
-  
+}
