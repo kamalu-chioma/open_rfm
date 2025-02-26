@@ -1,0 +1,83 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "RFM Customer Segmentation API",
+      "description": "API for processing RFM analysis and customer segmentation. Businesses can integrate this into their applications, e-commerce stores, or CRM systems to analyze customer behavior.",
+      "version": "1.0.0"
+    },
+    "host": "127.0.0.1:5000",
+    "schemes": ["http"],
+    "paths": {
+      "/upload": {
+        "post": {
+          "summary": "Upload a Customer Data File",
+          "description": "Allows users to upload a CSV/XLSX file containing transaction data for RFM analysis.",
+          "consumes": ["multipart/form-data"],
+          "parameters": [
+            {
+              "name": "file",
+              "in": "formData",
+              "description": "The CSV or XLSX file containing customer transactions.",
+              "required": true,
+              "type": "file"
+            }
+          ],
+          "responses": {
+            "200": { "description": "File uploaded successfully" },
+            "400": { "description": "Invalid file format or missing file" }
+          }
+        }
+      },
+      "/process_rfm": {
+        "post": {
+          "summary": "Process RFM Analysis",
+          "description": "Processes the uploaded customer data to segment users based on Recency, Frequency, and Monetary values. Can be used in e-commerce platforms and CRM systems.",
+          "parameters": [
+            {
+              "name": "file_path",
+              "in": "body",
+              "description": "Path to the uploaded CSV/XLSX file.",
+              "required": true,
+              "schema": { "type": "string" }
+            },
+            {
+              "name": "cluster_size",
+              "in": "body",
+              "description": "Number of customer clusters (default: auto-calculated optimal size).",
+              "required": false,
+              "schema": { "type": "integer", "default": "auto" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "RFM segmentation results",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "CustomerID": { "type": "integer", "example": 12345 },
+                    "Cluster": { "type": "integer", "example": 2 },
+                    "Cluster Meaning": { "type": "string", "example": "Loyal Customers" },
+                    "Likely_Churn": { "type": "string", "example": "No" }
+                  }
+                }
+              }
+            },
+            "400": { "description": "Invalid file path or processing error" }
+          }
+        }
+      },
+      "/download_csv": {
+        "get": {
+          "summary": "Download Processed RFM Data",
+          "description": "Returns a CSV file containing the results of RFM analysis and customer segmentation.",
+          "responses": {
+            "200": { "description": "Download link for the CSV file" },
+            "404": { "description": "File not found" }
+          }
+        }
+      }
+    }
+  }
+  

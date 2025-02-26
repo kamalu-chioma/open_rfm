@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "functions": {
+      "api/*.py": {
+        "memory": 1024,   // Increase memory limit
+        "maxDuration": 10  // Max request time = 10 seconds
+      }
+    }
+  }
+  
