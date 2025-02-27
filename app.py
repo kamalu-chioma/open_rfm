@@ -254,5 +254,6 @@ def download_csv():
         return jsonify({"error": "File not found"}), 404
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
     # socketio.run(app, debug=True)
     socketio.run(app, host="0.0.0.0", port=5000, debug=True)
